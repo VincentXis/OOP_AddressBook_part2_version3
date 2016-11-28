@@ -25,7 +25,7 @@ public class Contact implements Serializable {
         return lastName;
     }
 
-    public String geteMail() {
+    public String getEmail() {
         return eMail;
     }
 

@@ -7,7 +7,6 @@ import addressBookFileHandler.AddressBookFileHandler;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class AddressBook {
@@ -92,7 +91,7 @@ public class AddressBook {
     // show contact
     private void showContact(Contact contact) {
         System.out.format("Contact UUID: %s\n  First name: %s\n   Last name: %s\n\t  E-mail: %s\n\n",
-                contact.getUuid().toString(), contact.getFirstName(), contact.getLastName(), contact.geteMail()
+                contact.getUuid().toString(), contact.getFirstName(), contact.getLastName(), contact.getEmail()
         );
     }
 

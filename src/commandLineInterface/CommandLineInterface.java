@@ -43,6 +43,7 @@ public class CommandLineInterface {
     }
 
     private void readInputCommands(String[] userInput) {
+        String errorMessage;
         if (userInput[0].toLowerCase().equals("end"))
             userInput[0] = "quit";
         try {
@@ -52,40 +53,53 @@ public class CommandLineInterface {
                         addressBook.add(userInput[1], userInput[2], userInput[3]);
                         break;
                     }
-                    throw inputParameterException(userInput);
+                    errorMessage = "add requires 4 parameters, received: " + userInput.length;
+                    System.out.println(errorMessage);
+                    throw new InvalidParameterException(errorMessage);
                 case "list":
                     if (userInput.length == 1) {
                         addressBook.list();
                         break;
                     }
-                    throw inputParameterException(userInput);
+                    errorMessage = "list requires 1 parameter, received: " + userInput.length;
+                    System.out.println(errorMessage);
+                    throw new InvalidParameterException(errorMessage);
                 case "search":
                     if (userInput.length == 2) {
                         addressBook.search(userInput[1]);
                         break;
                     }
-                    throw inputParameterException(userInput);
+                    errorMessage = "search requires 2 parameters, received: " + userInput.length;
+                    System.out.println(errorMessage);
+                    throw new InvalidParameterException(errorMessage);
                 case "delete":
                     if (userInput.length == 2) {
                         addressBook.delete(userInput[1]);
                         break;
                     }
-                    throw inputParameterException(userInput);
+                    errorMessage = "delete requires 2 parameters, received: " + userInput.length;
+                    System.out.println(errorMessage);
+                    throw new InvalidParameterException(errorMessage);
                 case "help":
                     if (userInput.length == 1) {
                         help();
                         break;
                     }
-                    throw inputParameterException(userInput);
+                    errorMessage = "help requires 1 parameter, received: " + userInput.length;
+                    System.out.println(errorMessage);
+                    throw new InvalidParameterException(errorMessage);
                 case "quit":
                     if (userInput.length == 1) {
                         quit();
                         break;
                     }
-                    throw inputParameterException(userInput);
+                    errorMessage = "quit requires 1 parameter, received: " + userInput.length;
+                    System.out.println(errorMessage);
+                    throw new InvalidParameterException(errorMessage);
                 default:
-                    invalidInput(userInput[0]);
                     log.info("User failed to enter a valid command: " + userInput[0]);
+                    System.out.println("Invalid input command: " + userInput[0] +
+                            "\nPlease try again, or type: \"help\" for a list of available commands");
                     break;
             }
         } catch (Exception e) {
@@ -114,48 +128,16 @@ public class CommandLineInterface {
             System.out.println("the last processes has finished running,\nready for the main process to finish.\nGood bye.");
         }).start();
     }
+
     private void help() {
-        System.out.format("%s\n%s\n\t%s\n\t%s\n\t%s\n\t%s\n\t%s\n\t%s\n",
-                "The input for a command has to be lowercase to register", "List of all available commands:",
-                "add:    add a new contact to list", "list:   show all contacts in list", "delete: remove a contact from list",
-                "search: find contact/s in list ", "help:   to get here, lists all available commands", "quit:   exit the application"
+        System.out.format("%s\n%s\n\t%s\n\t%s\n\t%s\n\t%s\n\t%s\n\t%s\n", "The input for a command has to be lowercase to register",
+                "List of all available commands:",
+                "add:    add a new contact to list",
+                "list:   show all contacts in list",
+                "delete: remove a contact from list",
+                "search: find contact/s in list ",
+                "help:   to get here, lists all available commands",
+                "quit:   exit the application"
         );
-    }
-
-    private void invalidInput(String userInput){
-        System.out.println("Invalid input command: " + userInput +
-                "\nPlease try again, or type: \"help\" for a list of available commands");
-
-    }
-
-    private Exception inputParameterException(String[] name) {
-        String exceptionMessage = null;
-        switch (name[0]) {
-            case "add":
-                System.out.println("add requires 4 parameters, received: " + name.length + " please try again.");
-                exceptionMessage = "add requires 4 parameters, received: " + name.length;
-                break;
-            case "list":
-                System.out.println("list requires 1 parameter, received: " + name.length + " please try again.");
-                exceptionMessage = "list requires 1 parameter, received: " + name.length;
-                break;
-            case "search":
-                System.out.println("search requires 2 parameters, received: " + name.length + " please try again.");
-                exceptionMessage = "search requires 2 parameters, received: " + name.length;
-                break;
-            case "delete":
-                System.out.println("delete requires 2 parameters, received: " + name.length + " please try again.");
-                exceptionMessage = "delete requires 2 parameters, received: " + name.length;
-                break;
-            case "help":
-                System.out.println("help requires 1 parameter, received: " + name.length + " please try again.");
-                exceptionMessage = "help requires 1 parameter, received: " + name.length;
-                break;
-            case "quit":
-                System.out.println("quit requires 1 parameter, received: " + name.length + " please try again.");
-                exceptionMessage = "quit requires 1 parameter, received: " + name.length;
-                break;
-        }
-        return new InvalidParameterException(exceptionMessage);
     }
 }

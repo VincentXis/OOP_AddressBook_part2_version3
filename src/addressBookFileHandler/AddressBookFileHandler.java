@@ -22,6 +22,7 @@ public class AddressBookFileHandler {
     }
 
     /**
+     * @ SuppressAnger
      * ┻━┻︵ \(°¤°)/ ︵ ┻━┻
      */
     @SuppressWarnings("unchecked")

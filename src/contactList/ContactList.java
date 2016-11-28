@@ -16,7 +16,7 @@ public class ContactList {
         this.contactList = contactList;
         log.info("Contact List was loaded from file");
     }
-
+    // Create empty Contact List
     public void createNewContactList() {
         this.contactList = new ArrayList<>();
         log.log(Level.WARNING, "List was unable to be loaded from file, new ArrayList was created.");
