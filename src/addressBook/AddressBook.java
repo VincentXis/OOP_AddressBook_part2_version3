@@ -7,6 +7,7 @@ import addressBookFileHandler.AddressBookFileHandler;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class AddressBook {
@@ -30,7 +31,7 @@ public class AddressBook {
             System.out.println("Listing all contacts in Address Book:\n");
             sortByFirstName().forEach(this::showContact);
         }
-        System.out.printf("%s %d %s\n", "There are currently:", listSize, "saved contact/s in your Address Book");
+        System.out.printf("%s %d %s\n", "There are currently:", listSize, "saved contact/s in your Address Book\n");
 
         log.info("User requested to see all contacts in list.");
     }
@@ -49,23 +50,25 @@ public class AddressBook {
         ).forEach(this::showContact);
 
         if (resultCount > 0) {
-            log.info("User found contact/s matching input query.");
+            log.info("User found match on search.");
         } else {
-            log.info("User found no contact matching input query.");
+            log.info("User found no match on search.");
         }
-        System.out.println(resultCount + " contact/s matched your input.");
+        System.out.println(resultCount + " contact/s matched your input.\n");
     }
 
-    // delete
+    // delete - logged - feedback done
     public void delete(String idStringToMatch) {
+        log.info("User requested to delete a contact in the list");
+
         for (int i = 0; i < cl.getContactList().size(); i++) {
             if (cl.getContactList().get(i).getUuid().toString().equals(idStringToMatch)) {
-                System.out.format("Match found: %s\n%s %s, will be deleted from your Address Book.\n",
+                System.out.format("\nMatch found: %s\n%s %s, will be deleted from your Address Book.\n\n",
                         cl.getContactList().get(i).getUuid().toString(), cl.getContactList().get(i).getFirstName(), cl.getContactList().get(i).getLastName()
                 );
                 cl.deleteContactFromList(i);
                 log.info("User deleted contact from list");
-                break;
+                return;
             }
         }
         System.out.println("No contact matched the provided UUID in your Address Book: No contact was deleted.");
@@ -81,7 +84,6 @@ public class AddressBook {
     public void loadContactList() {
         if (fileHandler.loadListFromDisk() != null) {
             cl.loadExistingContactList(fileHandler.loadListFromDisk());
-
         } else {
             cl.createNewContactList();
         }
