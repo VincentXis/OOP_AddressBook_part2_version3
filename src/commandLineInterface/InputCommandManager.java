@@ -3,15 +3,36 @@ package commandLineInterface;
 import addressBook.AddressBook;
 
 import java.security.InvalidParameterException;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-class InputCommandManager {
-    AddressBook addressBook = new AddressBook();
+public class InputCommandManager {
+    private AddressBook addressBook = new AddressBook();
     private boolean run = true;
     private static final Logger log = Logger.getLogger(InputCommandManager.class.getName());
 
-    void readInputCommands(String[] userInput) {
+    public InputCommandManager() {
+        addressBook.loadContactList();
+        autoSave();
+    }
+
+    // get input string
+    private String readUserInput() {
+        return new Scanner(System.in).nextLine();
+    }
+
+    public void getInputFromUser() {
+        String input;
+        String[] inputSplit;
+        while (run) {
+            input = readUserInput();
+            inputSplit = input.split(" ");
+            readInputCommands(inputSplit);
+        }
+    }
+
+    private void readInputCommands(String[] userInput) {
         String errorMessage;
         if (userInput[0].toLowerCase().equals("end"))
             userInput[0] = "quit";
@@ -81,10 +102,6 @@ class InputCommandManager {
         return run = !run;
     }
 
-    public boolean accessRun() {
-        return run;
-    }
-
     private void help() {
         System.out.format("%s\n%s\n\t%s\n\t%s\n\t%s\n\t%s\n\t%s\n\t%s\n", "The input for a command has to be lowercase to register",
                 "List of all available commands:",
@@ -95,5 +112,21 @@ class InputCommandManager {
                 "help:   to get here, lists all available commands",
                 "quit:   exit the application"
         );
+    }
+
+    private void autoSave() {
+        new Thread(() -> {
+            log.info("AutoSave Thread, started.");
+            while (run) {
+                try {
+                    Thread.sleep(5_000);
+                    addressBook.saveContactList();
+                } catch (Exception e) {
+                    e.getStackTrace();
+                }
+            }
+            log.info("AutoSave Thread, ended.");
+            System.out.println("the last processes has finished running,\nready for the main process to finish.\nGood bye.");
+        }).start();
     }
 }

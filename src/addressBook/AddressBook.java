@@ -14,8 +14,7 @@ public class AddressBook {
     private AddressBookFileHandler fileHandler = new AddressBookFileHandler();
     private static final Logger log = Logger.getLogger(AddressBook.class.getName());
 
-    // Input functions
-    // add - logged - need feedback
+    // add - logged - feedback done
     public void add(String firstName, String lastName, String eMail) {
         cl.addContactToList(new Contact(firstName, lastName, eMail));
         System.out.printf("New contact: %s %s, was added to your Address Book\n", firstName, lastName);
