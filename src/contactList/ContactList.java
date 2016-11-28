@@ -13,7 +13,8 @@ public class ContactList {
     public void loadExistingContactList(List<Contact> contactList) {
         this.contactList = contactList;
     }
-    public void createNewContactList(){
+
+    public void createNewContactList() {
         this.contactList = new ArrayList<>();
     }
 
