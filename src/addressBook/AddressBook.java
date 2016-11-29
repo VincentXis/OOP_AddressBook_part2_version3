@@ -39,12 +39,10 @@ public class AddressBook {
         log.info("User requested to search contacts in list.");
         System.out.printf("%s %s\n\n", "Searching for contact with names starting with:", query);
 
-        int resultCount = sortByFirstName().stream().filter(contact ->
-                contact.getFirstName().toLowerCase().startsWith(query) || contact.getLastName().toLowerCase().startsWith(query)
+        int resultCount = sortByFirstName().stream().filter(contact -> contact.getFirstName().toLowerCase().startsWith(query) || contact.getLastName().toLowerCase().startsWith(query)
         ).mapToInt(contact -> (1)).sum();
 
-        sortByFirstName().stream().filter(contact -> contact.getFirstName().toLowerCase().startsWith(query) ||
-                contact.getLastName().toLowerCase().startsWith(query)
+        sortByFirstName().stream().filter(contact -> contact.getFirstName().toLowerCase().startsWith(query) || contact.getLastName().toLowerCase().startsWith(query)
         ).forEach(this::showContact);
 
         if (resultCount > 0) {
@@ -52,10 +50,10 @@ public class AddressBook {
         } else {
             log.info("User found no match on search.");
         }
+
         System.out.println(resultCount + " contact/s matched your input.\n");
     }
 
-    // delete - logged - feedback done
     public void delete(String idStringToMatch) {
         log.info("User requested to delete a contact in the list");
 
@@ -69,16 +67,16 @@ public class AddressBook {
                 return;
             }
         }
+
         System.out.println("No contact matched the provided UUID in your Address Book: No contact was deleted.");
+
         log.info("User tried to delete a contact from the list, no contact matched provided id string.");
     }
 
-    // save
     public void saveContactList() {
         fileHandler.saveListToDisk(new ArrayList<>(cl.getContactList()));
     }
 
-    // load
     public void loadContactList() {
         if (fileHandler.loadListFromDisk() != null) {
             cl.loadExistingContactList(fileHandler.loadListFromDisk());
@@ -87,14 +85,12 @@ public class AddressBook {
         }
     }
 
-    // show contact
     private void showContact(Contact contact) {
         System.out.format("Contact UUID: %s\n  First name: %s\n   Last name: %s\n\t  E-mail: %s\n\n",
                 contact.getUuid().toString(), contact.getFirstName(), contact.getLastName(), contact.getEmail()
         );
     }
 
-    // sort
     private List<Contact> sortByFirstName() {
         List<Contact> sortedContactList = new ArrayList<>(cl.getContactList());
         sortedContactList.sort(Comparator.comparing(contact -> contact.getFirstName().toLowerCase()));

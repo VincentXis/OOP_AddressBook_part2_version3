@@ -11,7 +11,7 @@ public class AddressBookFileHandler {
     private File savedContactsFile = new File("src/savedContactList.data");
     private static final Logger log = Logger.getLogger(AddressBookFileHandler.class.getName());
 
-    public void saveListToDisk(List<Contact> listOfContacts) {
+    public synchronized void saveListToDisk(List<Contact> listOfContacts) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(savedContactsFile))) {
             oos.writeObject(listOfContacts);
         } catch (IOException e) {

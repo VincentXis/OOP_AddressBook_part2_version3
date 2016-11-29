@@ -7,7 +7,6 @@ public class CommandLineInterface {
     private InputCommandManager icm = new InputCommandManager();
     private static final Logger log = Logger.getLogger(CommandLineInterface.class.getName());
 
-    // Constructor
     public CommandLineInterface() {
         runCommandLineInterface();
     }
